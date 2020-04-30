@@ -1,0 +1,90 @@
+{% load staticfiles %}
+
+<aside class="main-sidebar">
+  <section class="sidebar">
+    <ul class="sidebar-menu">
+      <li class="active">
+        <a href="{% url 'users:home' %}">
+          <i class="fa fa-home"></i>
+          <span>Home</span>
+        </a>
+      </li>
+      <li class="treeview">
+        <a href="">
+          <i class="fa fa-list-ul"></i>
+          <span>Cuentas</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a href="{% url 'users:show' %}">
+              <i class="fa fa-circle-o"></i>
+              <span>Users</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'users:showprofile' %}">
+              <i class="fa fa-circle-o"></i>
+              <span>Profiles</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'levels:show' %}">
+              <i class="fa fa-circle-o"></i>
+              <span>Levels</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="{% url 'categories:show' %}">
+          <i class="fa fa-th"></i>
+          <span>Category</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'products:show' %}">
+          <i class="fa fa-product-hunt"></i>
+          <span>Products</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'clients:show' %}">
+          <i class="fa fa-users"></i>
+          <span>Clients</span>
+        </a>
+      </li>
+      <li class="treeview">
+        <a href="">
+          <i class="fa fa-list-ul"></i>
+          <span>Sales</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a href="{% url 'sales:show' %}">
+              <i class="fa fa-circle-o"></i>
+              <span>Manage sale</span>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="fa fa-circle-o"></i>
+              <span>Add sale</span>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="fa fa-circle-o"></i>
+              <span>Report sale</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+</aside>

@@ -1,0 +1,33 @@
+<!--add base template-->
+{% extends "base.html" %}
+
+<!--Add extras-->
+{% load changes_extras %}
+
+<!--add format forms-->
+{% load widget_tweaks %}
+
+<!--load statics files-->
+{% load staticfiles %}
+
+<!-- Begin title-->
+{%block title %}
+<!-- Add title-->
+{{ title }} {% endblock %}
+<!-- End title-->
+
+<!-- Begin css-->
+{% block css %}
+<!-- Add css-->
+{% endblock %}
+<!-- End css-->
+{% block content %}
+{% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+{% endfor %}
+{% endblock %}

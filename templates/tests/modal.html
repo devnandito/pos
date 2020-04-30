@@ -1,0 +1,68 @@
+<!--add base template-->
+{% extends "basemodal.html" %}
+
+<!--Add extras-->
+{% load changes_extras %}
+
+<!--add format forms-->
+{% load widget_tweaks %}
+
+<!--load statics files-->
+{% load staticfiles %}
+
+<!-- Begin title-->
+{%block title %}
+<!-- Add title-->
+{{ title }} {% endblock %}
+<!-- End title-->
+
+<!-- Begin css-->
+{% block css %}
+<!-- Add css-->
+{% endblock %}
+<!-- End css-->
+{% block content %}
+<div class="modal-header" style="background: #3c8dbc; color: white;">
+  <h2 class="modal-title" id="modal-ajax">{{ title }}</h2>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form id="form-user" action="{% url 'users:getuser' %}" method="post">
+    {% csrf_token %}
+    <!--begin for-->
+    {% for field in form.visible_fields %}
+    <div class="form-group">
+      <div class="box-body">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"
+              ><i class="{{ field.label|replace3 }}"></i
+            ></span>
+            {% render_field field class="form-control input-lg" placeholder=field.label %}
+            <strong class="text-danger">{{ field.errors }}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="modal-footer">
+      <button
+        id="close"
+        type="button"
+        class="btn btn-default pull-left"
+        data-dismiss="modal"
+      >
+        Close
+      </button>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
+<!--Begin js-->
+{% block javascript %}
+<!-- <script src="{% static 'js/app.js' %}"></script> -->
+{% endblock %}

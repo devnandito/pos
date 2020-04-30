@@ -1,0 +1,108 @@
+<!--add base template-->
+{% extends "base.html" %}
+
+<!--Add extras-->
+{% load changes_extras %}
+
+<!--add format forms-->
+{% load widget_tweaks %}
+
+<!--load statics files-->
+{% load staticfiles %}
+
+<!-- Begin title-->
+{%block title %}
+{{ title.show }} {% endblock %}
+<!-- End title-->
+
+<!-- Begin css-->
+{% block css %}
+<!-- Add css-->
+{% endblock %}
+<!-- End css-->
+{% block content %}
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+      {{ title.show }}
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a href="{% url uri.home %}"><i class="fa fa-dashboard"></i> {{ title.home }} </a>
+      </li>
+      <li class="active">{{ title.show }}</li>
+    </ol>
+  </section>
+  <section class="content">
+    <div class="box">
+      <div class="box-header with-border">
+        <a href="{% url uri.createprofile %}" class="btn btn-primary"> {{ title.create }} </a>
+        <div class="box-tools pull-right">
+          <button
+            type="button"
+            class="btn btn-box-tool"
+            data-widget="collapse"
+            data-toggle="tooltip"
+            title="Collapse"
+          >
+            <i class="fa fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-box-tool"
+            data-widget="remove"
+            data-toggle="tooltip"
+            title="Remove"
+          >
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="box-body">
+        <table class="table table-bordered table-striped dt-responsive tablas">
+          <thead>
+            <tr>
+            {% for title in list_title %}
+              <th> {{ title }} </th>
+            {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in object_list %}
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.user }}</td>
+              <td>{{ item.description }}</td>
+              <td>{{ item.level }}</td>
+              <td> 
+                {% if item.picture.url != '' %}
+                  <img class="img-circle" width="60px"
+                  src="{{item.picture.url}}"
+                  alt=""
+                  />
+                {% else %}
+                  <img
+                    src="{% static 'media/users/default/anonymous.png' %}"
+                    alt=""
+                  />
+                {% endif %}
+              </td>
+              <td>
+                <div class="btn-groups">
+                  <a href="{% url uri.editprofile  item.id  %}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                  <a href="{% url uri.deleteprofile  item.id  %}" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                </div>
+              </td>
+            </tr>
+            {% endfor%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}
+<!--Begin js-->
+{% block javascript %}
+{% endblock %}
