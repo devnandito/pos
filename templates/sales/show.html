@@ -71,14 +71,14 @@
             {% for item in object_list %}
             <tr>
               <td>{{ item.id }}</td>
-              <td>{{ item.first_name }}</td>
-              <td>{{ item.last_name }}</td>
-              <td>{{ item.ci }}</td>
-              <td>{{ item.email }}</td>
-              <td>{{ item.phone }}</td>
-              <td>{{ item.direction }}</td>
-              <td>{{ item.birthday }}</td>
-              <td>{{ item.purchases }}</td>
+              <td>{{ item.invoice }}</td>
+              <td>{{ item.fkclient.first_name }}</td>
+              <td>{{ item.fkuser.first_name }}</td>
+              <td>{{ item.product }}</td>
+              <td>{{ item.tax }}</td>
+              <td>{{ item.net }}</td>
+              <td>{{ item.total }}</td>
+              <td>{{ item.payment }}</td>
               <td>
                 <div class="btn-groups">
                   <a href="{% url uri.edit  item.id  %}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>

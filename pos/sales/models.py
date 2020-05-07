@@ -13,7 +13,7 @@ from pos.users.models import User
 class Sale(CustomModel):
     """Sale model."""
 
-    code = models.IntegerField(blank=False, null=False)
+    invoice = models.IntegerField(blank=False, null=False)
     fkclient = models.ForeignKey(
         Client,
         on_delete=models.CASCADE

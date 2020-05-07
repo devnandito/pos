@@ -46,7 +46,6 @@ def create_category(request):
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
                 'title': get_body(tmp[3], tmp[0]),
-                'form': form,
                 'uri': get_url('categories'),
                 'message': message,
             }
@@ -73,7 +72,6 @@ def edit_category(request, pk):
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
                 'title': get_body(tmp[3], tmp[0]),
-                'form': form,
                 'uri': get_url('categories'),
                 'message': message,
             }

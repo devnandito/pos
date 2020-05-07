@@ -64,7 +64,6 @@ def create_user(request):
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
                 'title': get_body(tmp[3], tmp[0]),
-                'form': form,
                 'uri': get_url('users'),
                 'message': message,
             }
@@ -84,7 +83,7 @@ def create_user(request):
 @login_required()
 def edit_user(request, pk):
     tmp = get_name()
-    template = loader.get_template('users/add.html')
+    template = loader.get_template('users/edit.html')
     ins = get_object_or_404(User, pk=pk)
     ins1 = get_object_or_404(Profile, user=pk)
     if request.method == 'POST':
@@ -97,7 +96,6 @@ def edit_user(request, pk):
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
                 'title': get_body(tmp[3], tmp[0]),
-                'form': form,
                 'uri': get_url('users'),
                 'message': message,
             }
@@ -142,7 +140,6 @@ def change_pwd(request, pk):
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
                 'title': get_body(tmp[3], tmp[0]),
-                'form': form,
                 'uri': get_url('users'),
                 'message': message,
             }
@@ -182,7 +179,6 @@ def create_profile(request):
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
                 'title': get_body(tmp[7], tmp[4]),
-                'form': form,
                 'uri': get_url('users'),
                 'message': message,
             }
@@ -209,7 +205,6 @@ def edit_profile(request, pk):
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
                 'title': get_body(tmp[7], tmp[4]),
-                'form': form,
                 'uri': get_url('users'),
                 'message': message,
             }

@@ -53,7 +53,6 @@ def create_product(request):
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
                 'title': get_body(tmp[3], tmp[0]),
-                'form': form,
                 'uri': get_url('products'),
                 'message': message,
             }
@@ -85,7 +84,6 @@ def edit_product(request, pk):
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
                 'title': get_body(tmp[3], tmp[0]),
-                'form': form,
                 'uri': get_url('products'),
                 'message': message,
             }
@@ -163,7 +161,7 @@ def show_product_json(request):
         'Precio compra': print_format(item.purchase_price),
         'Precio venta': print_format(item.sale_price),
         'Stock': print_stock(item.stock),
-        'Acciones': '<div class="btn-groups"><a href="'+print_uri_edit(item.id)+'" class="btn btn-warning"><i class="fa fa-pencil"></i></a><a href="'+print_uri_delete(item.id)+'" class="btn btn-danger"><i class="fa fa-times"></i></a></div>',
+        'Acciones': '<div class="btn-group"><a href="'+print_uri_edit(item.id)+'" class="btn btn-warning"><i class="fa fa-pencil"></i></a><a href="'+print_uri_delete(item.id)+'" class="btn btn-danger"><i class="fa fa-times"></i></a></div>',
         } for item in object_list]
     json_data = json.dumps(data)
     return HttpResponse(json_data, content_type="application/json")

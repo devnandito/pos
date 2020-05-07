@@ -46,7 +46,6 @@ def create_client(request):
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
                 'title': get_body(tmp[3], tmp[0]),
-                'form': form,
                 'uri': get_url('clients'),
                 'message': message,
             }
@@ -73,7 +72,6 @@ def edit_client(request, pk):
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
                 'title': get_body(tmp[3], tmp[0]),
-                'form': form,
                 'uri': get_url('clients'),
                 'message': message,
             }
@@ -101,4 +99,27 @@ def delete_client(request, pk):
             'object_list': object_list,
             'uri': get_url('clients'),
         }
+    return HttpResponse(template.render(context, request))
+
+@login_required()
+def create_client_ajax(request):
+    tmp = get_name()
+    template = loader.get_template('clients/modal.html')
+    if request.method == 'POST' and request.is_ajax():
+        form = ClientForm(request.POST)
+        if form.is_valid():
+            data = form.save()
+            client_info = {
+                'id': data.id,
+                'first_name': data.first_name,
+            }
+            return JsonResponse({'client_info' : client_info}, status=200)
+        # else:
+        #     return JsonResponse({'message': 'Error message'}, status=500)
+    else:
+        form = ClientForm()
+    context = {
+        'title': get_body(tmp[3], tmp[0]),
+        'form': form,
+    }
     return HttpResponse(template.render(context, request))

@@ -28,7 +28,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <form id="form-level" action="{% url 'levels:getlevel' %}" method="post">
+  <form id="form-client" action="{% url 'clients:getclient' %}" method="post">
     {% csrf_token %}
     <!--begin for-->
     {% for field in form.visible_fields %}
