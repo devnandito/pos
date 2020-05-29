@@ -1,4 +1,4 @@
-$(".tableSaleProduct").DataTable({
+$(".tableEditSaleProduct").DataTable({
   language: {
     sProcessing: "Procesando...",
     sLengthMenu: "Mostrar _MENU_ registros",
@@ -66,7 +66,7 @@ $("#form-client").on("submit", function (e) {
 
 // Add product desde la tabla
 
-$(".tableSaleProduct tbody").on("click", "button.addProduct", function () {
+$(".tableEditSaleProduct tbody").on("click", "button.addProduct", function () {
   var idproduct = $(this).attr("idProduct");
   $(this).removeClass("btn-primary addProduct");
   $(this).addClass("btn-default");
@@ -130,7 +130,7 @@ $(".tableSaleProduct tbody").on("click", "button.addProduct", function () {
 
 // cuando cargue la tabla cada vez que navegue en ella
 
-$(".tableSaleProduct").on("draw.dt", function () {
+$(".tableEditSaleProduct").on("draw.dt", function () {
   if (localStorage.getItem("removeProduct") != null) {
     var listIdProduct = JSON.parse(localStorage.getItem("removeProduct"));
     for (var i = 0; i < listIdProduct.length; i++) {

@@ -29,4 +29,4 @@ class Sale(CustomModel):
     payment = models.CharField(max_length=500, blank=False, null=False)
 
     def __str__(self):
-        return ('{}').format(self.code)
+        return ('{}').format(self.invoice)

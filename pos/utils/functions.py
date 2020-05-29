@@ -10,6 +10,7 @@ def get_url(url):
         'editprofile': url+':editprofile',
         'deleteprofile': url+':deleteprofile',
         'home': 'users:home',
+        'print': url+':print',
     }
     return uri
 

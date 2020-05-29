@@ -32,6 +32,11 @@ list_label = {
     'Fkclient': ['Cliente', 'fa fa-child'],
     'Fkuser': ['Usuario', 'fa fa-user'],
     'Seller': ['Vendedor', 'fa fa-user'],
+    'Product': ['Producto', 'fa fa-product-hunt'],
+    'Net': ['Neto', 'fa fa-money'],
+    'Total': ['Total', 'fa fa-money'],
+    'Payment': ['Metodo de pago', 'fa fa-money'],
+    'Tax': ['Impuesto', 'fa fa-line-chart'],
 }
 
 @register.filter
@@ -40,13 +45,25 @@ def replace(value, arg):
         if k == value:
             return v[arg]
 
-# def valid_numeric(arg):
-#     if isinstance(arg, (int, float, Decimal)):
-#         return arg
-#     try:
-#         return int(arg)
-#     except ValueError:
-#         return float(arg)
+def valid_numeric(arg):
+    if isinstance(arg, (int, float, Decimal)):
+        return arg
+    try:
+        return int(arg)
+    except ValueError:
+        return float(arg)
+
+@register.filter
+def sum(value, arg):
+    """Subtracts the arg from the value. """
+    try:
+        return valid_numeric(value) + valid_numeric(arg)
+    except (ValueError, TypeError):
+        try:
+            return value + arg
+        except Exception:
+            return ' '
+sum.is_safe = False
 
 # @register.filter
 # def sub(value, arg):
