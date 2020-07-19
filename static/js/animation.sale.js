@@ -1,3 +1,13 @@
+/* variable loca storage */
+
+// if (localStorage.getItem("catchRange") != null) {
+//   $("#daterange-btn span").html(localStorage.getItem("catchRange"));
+// } else {
+//   $("#daterange-btn span").html(
+//     '<i class="fa fa-calendar"></i> Rando de fecha'
+//   );
+// }
+
 $(".tableSaleProduct").DataTable({
   language: {
     sProcessing: "Procesando...",
@@ -439,3 +449,38 @@ function listMethod() {
     );
   }
 }
+
+$("#daterange-btn").daterangepicker(
+  {
+    ranges: {
+      Hoy: [moment(), moment()],
+      Ayer: [moment().subtract(1, "days"), moment().subtract(1, "days")],
+      "Ultimos 7 dias": [moment().subtract(6, "days"), moment()],
+      "Ultimos 30 dias": [moment().subtract(29, "days"), moment()],
+      "Este mes": [moment().startOf("month"), moment().endOf("month")],
+      "Ultimo mes": [
+        moment().subtract(1, "month").startOf("month"),
+        moment().subtract(1, "month").endOf("month"),
+      ],
+    },
+    startDate: moment().subtract(29, "days"),
+    endDate: moment(),
+  },
+  function (start, end) {
+    $("#daterange-btn span").html(
+      start.format("MMMM D, YYYY") + "- " + end.format("MMMM D, YYYY")
+    );
+    var initDate = start.format("YYYY-M-D");
+    var endDate = end.format("YYYY-M-D");
+    var catchRange = $("#daterange-btn span").html();
+
+    localStorage.setItem("catchRange", catchRange);
+  }
+);
+
+/* cancelar rango de fecha*/
+// $(".daterangepicker .range_inputs .cancelBtn").on("click", function () {
+//   localStorage.removeItem("catchRange");
+//   localStorage.clear();
+//   window.location = "sale";
+// });

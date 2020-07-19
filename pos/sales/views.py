@@ -6,8 +6,9 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.conf import settings
 import json
+import os
+import environ
 
 # generate pdf
 from io import BytesIO, StringIO
@@ -33,9 +34,64 @@ from pos.sales.forms import SaleForm, CustomSaleForm, CustomEditSaleForm
 # Utilities
 from pos.utils.functions import get_url, get_body
 
+ROOT_DIR = environ.Path(__file__) - 4
+APPS_DIR = ROOT_DIR.path('pos')
+static = str(APPS_DIR.path('static'))
+
 def get_name():
     name = ['Ventas', 'ventas', 'Venta', 'venta']
     return name
+
+@login_required()
+def show_report(request):
+    tmp = get_name()
+    template = loader.get_template('sales/reports.html')
+    context = {
+        'title': get_body(tmp[3], tmp[0]),
+    }
+    return HttpResponse(template.render(context, request))
+
+@login_required()
+def show_report_sale_json(request):
+    object_list = Sale.objects.all()
+    data_sale = [{
+        'id': item.id,
+        'Invoice': item.invoice,
+        } for item in object_list]
+    return JsonResponse({'data_sale': data_sale}, status=200)
+
+# @login_required()
+# def show_report_sale_json(request):
+#     object_list = Sale.objects.all()
+#     data = [{
+#         '#': item.id,
+#         'Invoice': item.invoice,
+#         } for item in object_list]
+#     json_data = json.dumps(data)
+#     return HttpResponse(json_data, content_type="application/json")
+
+# @login_required()
+# def create_level_ajax(request):
+#     tmp = get_name()
+#     template = loader.get_template('levels/modal.html')
+#     if request.method == 'POST' and request.is_ajax():
+#         form = LevelForm(request.POST)
+#         if form.is_valid():
+#             data = form.save()
+#             level_info = {
+#                 'id': data.id,
+#                 'description': data.description,
+#             }
+#             return JsonResponse({'level_info' : level_info}, status=200)
+#         # else:
+#         #     return JsonResponse({'message': 'Error message'}, status=500)
+#     else:
+#         form = LevelForm()
+#     context = {
+#         'title': get_body(tmp[3], tmp[0]),
+#         'form': form,
+#     }
+#     return HttpResponse(template.render(context, request))
 
 @login_required()
 def show_sale(request):
@@ -325,8 +381,9 @@ def invoice_pdf(request, pk):
         pagesize=landscape(letter))
     # Our container for 'Flowable' objects
     elements = []
+    logo = static+'/img/pdf/logo-negro-bloque.png'
     # logo = "/var/www/html/pos/static/img/pdf/logo-negro-bloque.png"
-    logo = settings.MEDIA_ROOT+'/static/img/pdf/logo-negro-bloque.png'
+    # logo = settings.STATIC_URL+'img/pdf/logo-negro-bloque.png'
     im = Image(logo, 3*inch, 2*inch)
 
     # A large collection of style sheets pre-made for us

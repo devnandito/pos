@@ -17,7 +17,7 @@ class Client(CustomModel):
     direction = models.CharField(max_length=500, blank=False, null=False)
     birthday = models.DateField(blank=False, null=False)
     purchases = models.IntegerField(default=0, blank=False, null=False)
-    # last_purchases = models.DateTimeField(blank=True, null=True)
+    last_purchases = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return ('{} {}').format(self.first_name, self.last_name)
