@@ -152,17 +152,30 @@ def print_stock(value):
 @login_required()
 def show_product_json(request):
     object_list = Product.objects.all()
-    data = [{
-        '#': item.id,
-        'Imagen': '<img class="img-circle" width="60px" src="'+print_uri_image(item.image.url)+'" alt=""/>',
-        'Descripcion': item.description,
-        'Categoria': print_format(item.fkcategory.description),
-        'Codigo': item.code,
-        'Precio compra': print_format(item.purchase_price),
-        'Precio venta': print_format(item.sale_price),
-        'Stock': print_stock(item.stock),
-        'Acciones': '<div class="btn-group"><a href="'+print_uri_edit(item.id)+'" class="btn btn-warning"><i class="fa fa-pencil"></i></a><a href="'+print_uri_delete(item.id)+'" class="btn btn-danger"><i class="fa fa-times"></i></a></div>',
-        } for item in object_list]
+    if request.user.profile.level.id == 1:
+        data = [{
+            '#': item.id,
+            'Imagen': '<img class="img-circle" width="60px" src="'+print_uri_image(item.image.url)+'" alt=""/>',
+            'Descripcion': item.description,
+            'Categoria': print_format(item.fkcategory.description),
+            'Codigo': item.code,
+            'Precio compra': print_format(item.purchase_price),
+            'Precio venta': print_format(item.sale_price),
+            'Stock': print_stock(item.stock),
+            'Acciones': '<div class="btn-group"><a href="'+print_uri_edit(item.id)+'" class="btn btn-warning"><i class="fa fa-pencil"></i></a><a href="'+print_uri_delete(item.id)+'" class="btn btn-danger"><i class="fa fa-times"></i></a></div>',
+            } for item in object_list]
+    else:
+        data = [{
+            '#': item.id,
+            'Imagen': '<img class="img-circle" width="60px" src="'+print_uri_image(item.image.url)+'" alt=""/>',
+            'Descripcion': item.description,
+            'Categoria': print_format(item.fkcategory.description),
+            'Codigo': item.code,
+            'Precio compra': print_format(item.purchase_price),
+            'Precio venta': print_format(item.sale_price),
+            'Stock': print_stock(item.stock),
+            'Acciones': '<div class="btn-group"><a href="'+print_uri_edit(item.id)+'" class="btn btn-warning"><i class="fa fa-pencil"></i></a>',
+            } for item in object_list]
     json_data = json.dumps(data)
     return HttpResponse(json_data, content_type="application/json")
 

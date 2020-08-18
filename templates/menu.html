@@ -9,6 +9,7 @@
           <span>Home</span>
         </a>
       </li>
+      {% if request.user.profile.level.id == 1 %}
       <li class="treeview">
         <a href="">
           <i class="fa fa-list-ul"></i>
@@ -38,6 +39,8 @@
           </li>
         </ul>
       </li>
+      {% endif %}
+      {% if request.user.profile.level.id == 1 or  request.user.profile.level.id == 6 %}
       <li>
         <a href="{% url 'categories:show' %}">
           <i class="fa fa-th"></i>
@@ -50,6 +53,8 @@
           <span>Products</span>
         </a>
       </li>
+      {% endif %}
+      {% if request.user.profile.level.id == 1 or  request.user.profile.level.id == 2 %}
       <li>
         <a href="{% url 'clients:show' %}">
           <i class="fa fa-users"></i>
@@ -85,6 +90,7 @@
           </li>
         </ul>
       </li>
+      {% endif %}
     </ul>
   </section>
 </aside>

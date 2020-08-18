@@ -82,7 +82,9 @@
               <td>
                 <div class="btn-groups">
                   <a href="{% url uri.edit  item.id  %}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                  {% if request.user.profile.level.id == 1 %}
                   <a href="{% url uri.delete  item.id  %}" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                  {% endif %}
                 </div>
               </td>
             </tr>

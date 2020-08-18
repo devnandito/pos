@@ -4,13 +4,18 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, SetPasswordForm
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Sum
 
 # Models
 from pos.users.models import User, Profile
+from pos.sales.models import Sale
+from pos.categories.models import Category
+from pos.clients.models import Client
+from pos.products.models import Product
 
 # Forms
 from pos.users.forms import CustomUserCreationForm, ProfileForm, ProfileUserForm, CustomUserChangeForm
@@ -28,9 +33,19 @@ import datetime
 @login_required()
 def show_home(request):
     tmp = get_name()
+    query1 = Sale.objects.all().aggregate(Sum('net'))
+    query2 = Category.objects.count()
+    query3 = Client.objects.count()
+    query4 = Product.objects.count()
+    query5 = Product.objects.all().order_by('-id')[:5]
     template = loader.get_template('users/dashboard.html')
     context = {
         'title': get_body(tmp[8], tmp[8]),
+        'total_sales': query1,
+        'total_category': query2,
+        'total_client': query3,
+        'total_product': query4,
+        'product_list': query5,
     }
     return HttpResponse(template.render(context, request))
 
@@ -128,6 +143,32 @@ def delete_user(request, pk):
     return HttpResponse(template.render(context, request))
 
 @login_required()
+def set_pwd(request, pk):
+    tmp = get_name()
+    template = loader.get_template('users/changepwd.html')
+    ins = get_object_or_404(User, pk=pk)
+    if request.method == 'POST':
+        form = SetPasswordForm(ins, request.POST)
+        if form.is_valid():
+            form.save()
+            message = 'Los datos se guardaron correctamente!'
+            tpl = loader.get_template('messages/message.html')
+            contextSuccess = {
+                'title': get_body(tmp[3], tmp[0]),
+                'uri': get_url('users'),
+                'message': message,
+            }
+            return HttpResponse(tpl.render(contextSuccess, request))
+    else:
+        form = SetPasswordForm(ins)
+    context = {
+        'title': get_body(tmp[9], tmp[9]),
+        'form': form,
+        'uri': get_url('users'),
+    }
+    return HttpResponse(template.render(context, request))
+
+@login_required()
 def change_pwd(request, pk):
     tmp = get_name()
     template = loader.get_template('users/changepwd.html')
@@ -136,6 +177,7 @@ def change_pwd(request, pk):
         form = PasswordChangeForm(ins, request.POST)
         if form.is_valid():
             form.save()
+            update_session_auth_hash(request, form.user)
             message = 'Los datos se guardaron correctamente!'
             tpl = loader.get_template('messages/message.html')
             contextSuccess = {
