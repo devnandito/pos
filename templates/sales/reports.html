@@ -49,22 +49,21 @@
       </div>
       <div class="box-body">
         <div class="row">
-          <div class="col-xs-12">
-          </div>
-          <div class="getData">
-
+          <div class="col-lg-12">
+            <div class="box box-solid  bg-teal-gradient">
+              <div class="box-header">
+                <i class="fa fa-th"></i>
+                <h3 class="box-title">Gráfico de ventas</h3>
+              </div>
+              <div class="box-body border-radius-none nuevoGraficoVentas">
+                <div class="chart" id="line-chart-sales" style="height: 250px;"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <!-- /.box-body -->
-      <div class="box-footer">
-        Footer
-      </div>
-      <!-- /.box-footer-->
     </div>
-    <!-- /.box -->
   </section>
-  <!-- /.content -->
 </div>
 {% endblock %}
 <!--Begin js-->
@@ -122,25 +121,44 @@ $(".daterangepicker.openleft .ranges li").on("click", function () {
   }
 });
 
-$(".getData").ready(function () {
-  var uri = "report/api/v6";
-  $.ajax({
-    type: "GET",
-    url: uri,
-    success: function (response) {
-      a = response.data_sale;
-      let txt = "";
-      for (x = 0; x < a.length; x++) {
-        txt += `<p>${a[x]["Invoice"]} ${a[x]["id"]}</p>`;
-      }
-      $(".getData").append(txt);
-    },
-    error: function (response) {
-      console.log(response);
-    },
-  });
+
+var uri = "report/api/v6";
+$.ajax({
+  type: "GET",
+  url: uri,
+  success: function (response) {
+    a = response.data_sale;
+    // let txt = "";
+    // for (x = 0; x < a.length; x++) {
+    //   txt += `<p>${a[x]["Invoice"]} ${a[x]["id"]}</p>`;
+    // }
+    // $(".getData").append(txt);
+
+    var myData = [];
+    for (x = 0; x < a.length; x++) {
+      y=x+1
+      var obj = {
+        year: a[x]["year"]+' '+'Q'+a[x]["month"],
+        value: a[x]["value"]
+      };
+      myData.push(obj);
+    }
+
+    console.log(myData);
+    var line = new Morris.Line({
+      element: 'line-chart-sales',
+      resize: true,
+      data: myData,
+      xkey: 'year',
+      ykeys: ['value'],
+      labels: ['Sale'],
+      lineColors: ['#3c8dbc'],
+      hideHover: 'auto'
+    });
+  },
+  error: function (response) {
+    console.log(response);
+  },
 });
-
 </script>
-
 {% endblock %}

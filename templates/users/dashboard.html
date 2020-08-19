@@ -1,6 +1,9 @@
 <!--add base template-->
 {% extends "base.html" %}
 
+<!--Add extras-->
+{% load changes_extras %}
+
 <!--add format forms-->
 {% load widget_tweaks %}
 
@@ -102,32 +105,46 @@
   
   <div class="row">
     <div class="col-lg-12">
-      <div class="small-box bg-aqua">
-        <div class="inner">
-          <h3>Grafico de ventas</h3>
-          <p>Ventas</p>
+      <div class="box box-solid  bg-teal-gradient">
+        <div class="box-header">
+          <i class="fa fa-th"></i>
+          <h3 class="box-title">Gráfico de ventas</h3>
         </div>
-        <div class="icon">
-          <i class="ion ion-social-usd"></i>
+        <div class="box-body border-radius-none nuevoGraficoVentas">
+          <div class="chart" id="line-chart-sales1" style="height: 250px;"></div>
         </div>
-        <a href="{% url 'sales:show' %}" class="small-box-footer">
-          Mas info <i class="fa fa-arrow-circle-right"></i>
-        </a>
       </div>
     </div>
     
     <div class="col-lg-6">
-      <div class="small-box bg-red">
-        <div class="inner">
-          <h3>Productos mas vendidos</h3>
-          <p>Productos</p>
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <h3 class="box-title">Productos mas vendidos</h3>
         </div>
-        <div class="icon">
-          <i class="ion ion-ios-cart"></i>
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="chart-responsive">
+                <canvas id="pieChart" height="150"></canvas>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <ul class="chart-legend clearfix">
+                {% for product in product_list1 %}
+                  <li><i class="fa fa-circle-o text-{% cycle 'red' 'blue' 'green' 'purple' 'aqua' %}"></i> {{product.description}} </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
         </div>
-        <a href="{% url 'products:show' %}" class="small-box-footer">
-          Mas info <i class="fa fa-arrow-circle-right"></i>
-        </a>
+        <div class="box-footer no-padding">
+          <ul class="nav nav-pills nav-stacked">
+            {% for product in product_list1 %}
+              <li><a href="#">{{product.description}}
+                <span class="pull-right text-{% cycle 'red' 'blue' 'green' 'purple' 'aqua' %}"><i class="fa fa-angle-down"></i> {{ product.sales|percent:product_sum.sales__sum }}%</span></a></li>  
+            {% endfor %}
+          </ul>
+        </div>
       </div>
     </div>
     
@@ -182,4 +199,100 @@
 </div>
 {% endblock %}
 <!--Begin js-->
-{% block javascript %} {% endblock %}
+{% block javascript %} 
+<script>
+  var uri = "api/v6";
+  $.ajax({
+    type: "GET",
+    url: uri,
+    success: function (response) {
+      a = response.data_sale;
+      var myData = [];
+      for (x = 0; x < a.length; x++) {
+        y=x+1
+        var obj = {
+          year: a[x]["year"]+' '+'Q'+a[x]["month"],
+          value: a[x]["value"]
+        };
+        myData.push(obj);
+      }
+      var line = new Morris.Line({
+        element: 'line-chart-sales1',
+        resize: true,
+        data: myData,
+        xkey: 'year',
+        ykeys: ['value'],
+        labels: ['Sale'],
+        lineColors: ['#3c8dbc'],
+        hideHover: 'auto'
+      });
+    },
+    error: function (response) {
+      console.log(response);
+    },
+  });
+
+  var uri = "api/v7";
+  $.ajax({
+    type: "GET",
+    url: uri,
+    success: function (response) {
+      a = response.data_product;
+      var myProduct = [];
+      for (x = 0; x < a.length; x++) {
+        y=x+1
+        var obj = {
+          value: a[x]["value"],
+          color: a[x]["color"],
+          highlight: a[x]["highlight"],
+          label: a[x]["label"]
+        };
+        myProduct.push(obj);
+      }
+      // console.log(myProduct)
+      var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
+      var pieChart       = new Chart(pieChartCanvas);
+      var PieData        = myProduct
+      var pieOptions     = {
+        // Boolean - Whether we should show a stroke on each segment
+        segmentShowStroke    : true,
+        // String - The colour of each segment stroke
+        segmentStrokeColor   : '#fff',
+        // Number - The width of each segment stroke
+        segmentStrokeWidth   : 1,
+        // Number - The percentage of the chart that we cut out of the middle
+        percentageInnerCutout: 50, // This is 0 for Pie charts
+        // Number - Amount of animation steps
+        animationSteps       : 100,
+        // String - Animation easing effect
+        animationEasing      : 'easeOutBounce',
+        // Boolean - Whether we animate the rotation of the Doughnut
+        animateRotate        : true,
+        // Boolean - Whether we animate scaling the Doughnut from the centre
+        animateScale         : false,
+        // Boolean - whether to make the chart responsive to window resizing
+        responsive           : true,
+        // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+        maintainAspectRatio  : false,
+        // String - A legend template
+
+        // String - A tooltip template
+        tooltipTemplate      : '<%=value %> <%=label%>'
+      };
+      // Create pie or douhnut chart
+      // You can switch between pie and douhnut using the method below.
+      pieChart.Doughnut(PieData, pieOptions);
+      // -----------------
+      // - END PIE CHART -
+      // -----------------
+    },
+    error: function (response) {
+      console.log(response);
+    },
+  });
+  
+
+
+
+</script>
+{% endblock %}

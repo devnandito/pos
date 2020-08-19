@@ -1,6 +1,8 @@
 from django.urls import path
 from pos.users.views import show_home, login_view, logout_view, show_user, create_user, create_profile, show_profile, edit_user, delete_user, edit_profile, set_pwd, change_pwd, delete_profile
 from pos.levels.views import create_level_ajax
+from pos.sales.views import show_report_sale_json
+from pos.products.views import show_report_product_json
 
 app_name = 'pos.users'
 
@@ -19,4 +21,6 @@ urlpatterns = [
     path('dashboard/delete/user/<int:pk>/profile', delete_profile, name='deleteprofile'),
     path('dashboard/show/user/profile', show_profile, name='showprofile'),
     path('dashboard/create/user/ajax/get/level', create_level_ajax, name='getlevel'),
+    path('dashboard/api/v6', show_report_sale_json, name='sale_report1'),
+    path('dashboard/api/v7', show_report_product_json, name='product_report'),
 ]

@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 import json
+import random
 
 # Models
 from pos.products.models import Product
@@ -194,6 +195,31 @@ def show_product_json_post(request):
         data = [{'id':'null',' categoria':fkcategory, 'codigo':code}]
     json_data = json.dumps(data)
     return HttpResponse(json_data, content_type="application/json")
+
+def get_color1(value):
+    color_list = ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc']
+    value = color_list[value]
+    return value
+
+def get_digit(number):
+    if number < 10:
+        return number
+    else:
+        num = [0,1,2,3,4]
+        value = random.choice(num)
+        return value
+
+@login_required()
+def show_report_product_json(request):
+    object_list = Product.objects.all().order_by('-sales')[:5]
+    data_product = [{
+        'value': item.sales,
+        'color': get_color1(get_digit(int(item.id))),
+        'highlight': get_color1(get_digit(int(item.id))),
+        'label': item.description,
+
+        } for item in object_list]
+    return JsonResponse({'data_product': data_product}, status=200)
 
 # @login_required()
 # def show_product_json_get(request, fkcategory):

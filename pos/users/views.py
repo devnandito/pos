@@ -36,8 +36,11 @@ def show_home(request):
     query1 = Sale.objects.all().aggregate(Sum('net'))
     query2 = Category.objects.count()
     query3 = Client.objects.count()
-    query4 = Product.objects.count()
-    query5 = Product.objects.all().order_by('-id')[:5]
+    query_init = Product.objects.all()
+    query4 = query_init.count()
+    query5 = query_init.order_by('-id')[:5]
+    query6 = query_init.aggregate(Sum('sales'))
+    query7 = query_init.order_by('-sales')[:5]
     template = loader.get_template('users/dashboard.html')
     context = {
         'title': get_body(tmp[8], tmp[8]),
@@ -46,6 +49,8 @@ def show_home(request):
         'total_client': query3,
         'total_product': query4,
         'product_list': query5,
+        'product_sum': query6,
+        'product_list1': query7,
     }
     return HttpResponse(template.render(context, request))
 

@@ -52,6 +52,12 @@
       href="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.css' %}"
     />
 
+    <!-- Morris Js -->
+    <link
+      rel="stylesheet"
+      href="{% static 'bower_components/morris.js/morris.css' %}"
+    />
+
     {% block css %} {% endblock %}
   </head>
   <body
@@ -82,6 +88,14 @@
     <!--Date range picker -->
     <script src="{% static 'bower_components/moment/min/moment.min.js' %}"></script>
     <script src="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+
+    <!--Morris.js charts-->
+    <script src="{% static 'bower_components/raphael/raphael.min.js' %}"></script>
+    <script src="{% static 'bower_components/morris.js/morris.min.js' %}"></script>
+
+    <!--ChartJS-->
+    <script src="{% static 'bower_components/chart.js/Chart.js' %}"></script>
+
     <!-- AdminLTE for demo purposes -->
     <!-- <script src="{% static 'js/template.js' %}"></script> -->
     <script src="{% static 'js/app.js' %}"></script>
@@ -90,7 +104,6 @@
     <script src="{% static 'js/animation.level.js' %}"></script>
     <script src="{% static 'js/animation.sale.js' %}"></script>
     <script src="{% static 'js/animation.edit.sale.js' %}"></script>
-    <script src="{% static 'js/animation.report.js' %}"></script>
 
     {% block javascript %} {% endblock %}
   </body>

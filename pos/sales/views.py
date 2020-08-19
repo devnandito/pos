@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 import json
 import os
 import environ
+import datetime
+import math
 
 # generate pdf
 from io import BytesIO, StringIO
@@ -51,12 +53,17 @@ def show_report(request):
     }
     return HttpResponse(template.render(context, request))
 
+def get_quarter(value):
+    q = math.ceil(int(value)/3.)
+    return q
+
 @login_required()
 def show_report_sale_json(request):
     object_list = Sale.objects.all()
     data_sale = [{
-        'id': item.id,
-        'Invoice': item.invoice,
+        'year': item.created_at.year,
+        'month': get_quarter(item.created_at.month),
+        'value': int(item.net),
         } for item in object_list]
     return JsonResponse({'data_sale': data_sale}, status=200)
 

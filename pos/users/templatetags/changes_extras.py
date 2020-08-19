@@ -68,17 +68,29 @@ def sum(value, arg):
             return ' '
 sum.is_safe = False
 
-# @register.filter
-# def sub(value, arg):
-#     """Subtracts the arg from the value. """
-#     try:
-#         return valid_numeric(value) - valid_numeric(arg)
-#     except (ValueError, TypeError):
-#         try:
-#             return value - arg
-#         except Exception:
-#             return ' '
-# sub.is_safe = False
+@register.filter
+def percent(value, arg):
+    """Calcule percent the arg from the value. """
+    try:
+        return int((valid_numeric(value)*100) / valid_numeric(arg))
+    except (ValueError, TypeError):
+        try:
+            return (value*100) / arg
+        except Exception:
+            return ' '
+percent.is_safe = False
+
+@register.filter
+def sub(value, arg):
+    """Subtracts the arg from the value. """
+    try:
+        return valid_numeric(value) - valid_numeric(arg)
+    except (ValueError, TypeError):
+        try:
+            return value - arg
+        except Exception:
+            return ' '
+sub.is_safe = False
 
 # list1 = {
 #     '<label for="id_username">Username:</label>': 'Username:',

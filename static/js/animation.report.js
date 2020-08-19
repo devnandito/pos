@@ -59,7 +59,7 @@
 //       a = response.data_sale;
 //       let txt = "";
 //       for (x = 0; x < a.length; x++) {
-//         txt += `<p>${a[x]["Invoice"]}</p>`;
+//         txt += `<p>${a[x]["Invoice"]} ${a[x]["id"]}</p>`;
 //       }
 //       $(".getData").append(txt);
 //     },
