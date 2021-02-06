@@ -45,12 +45,6 @@
       rel="stylesheet"
       href="{% static 'bower_components/datatables.net-bs/css/responsive.bootstrap.min.css' %}"
     />
-    <link rel="icon" href="{% static 'img/templates/icono-negro.png' %}" />
-    <!--Date range picker -->
-    <link
-      rel="stylesheet"
-      href="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.css' %}"
-    />
 
     <!-- Morris Js -->
     <link
@@ -58,6 +52,7 @@
       href="{% static 'bower_components/morris.js/morris.css' %}"
     />
 
+    <link rel="icon" href="{% static 'img/templates/icono-negro.png' %}" />
     {% block css %} {% endblock %}
   </head>
   <body
@@ -85,9 +80,6 @@
     <!-- SweetAlert 2 -->
     <script src="{% static 'plugins/sweetalert2/sweetalert2.all.js' %}"></script>
     <script src="{% static 'plugins/jquery-number/jquery.number.js' %}"></script>
-    <!--Date range picker -->
-    <script src="{% static 'bower_components/moment/min/moment.min.js' %}"></script>
-    <script src="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
 
     <!--Morris.js charts-->
     <script src="{% static 'bower_components/raphael/raphael.min.js' %}"></script>
@@ -95,15 +87,6 @@
 
     <!--ChartJS-->
     <script src="{% static 'bower_components/chart.js/Chart.js' %}"></script>
-
-    <!-- AdminLTE for demo purposes -->
-    <!-- <script src="{% static 'js/template.js' %}"></script> -->
-    <script src="{% static 'js/app.js' %}"></script>
-    <script src="{% static 'js/animation.user.js' %}"></script>
-    <script src="{% static 'js/animation.product.js' %}"></script>
-    <script src="{% static 'js/animation.level.js' %}"></script>
-    <script src="{% static 'js/animation.sale.js' %}"></script>
-    <script src="{% static 'js/animation.edit.sale.js' %}"></script>
 
     {% block javascript %} {% endblock %}
   </body>

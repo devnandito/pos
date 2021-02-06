@@ -197,17 +197,15 @@ def show_product_json_post(request):
     return HttpResponse(json_data, content_type="application/json")
 
 def get_color1(value):
-    color_list = ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc']
-    value = color_list[value]
+    # color_list = ['#f56954', '#00a65a', '#f39c12', '#00c0ef']
+    color_list = ['#E6E6FA', '#FFEFD5', '#FFE4E1', '#FAEBD7', '#B0E0E6', '#7FFFD4', '#98FB98', '#B0C4DE', '#87CEEB', '#6495ED']
+    value = color_list[int(value)]
     return value
 
 def get_digit(number):
-    if number < 10:
-        return number
-    else:
-        num = [0,1,2,3,4]
-        value = random.choice(num)
-        return value
+    value = 11 - sum([int(a)*int(b) for a,b in zip(str(number).zfill(8), '32765432')])%11
+    return value
+    # return {10: 'k', 11: '0'}.get(value, str(value))
 
 @login_required()
 def show_report_product_json(request):
@@ -216,6 +214,8 @@ def show_report_product_json(request):
         'value': item.sales,
         'color': get_color1(get_digit(int(item.id))),
         'highlight': get_color1(get_digit(int(item.id))),
+        # 'color': get_digit(int(item.id)),
+        # 'highlight': get_digit(int(item.id)),
         'label': item.description,
 
         } for item in object_list]

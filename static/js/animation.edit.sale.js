@@ -68,10 +68,13 @@ $("#form-client").on("submit", function (e) {
 
 $(".tableEditSaleProduct tbody").on("click", "button.addProduct", function () {
   var idproduct = $(this).attr("idProduct");
+  var host = location.host;
+  var uri = "http://" + host + "/dashboard/show/product/api/v4";
   $(this).removeClass("btn-primary addProduct");
   $(this).addClass("btn-default");
   $.ajax({
-    url: "http://inventory.armaiden.com/dashboard/show/product/api/v4",
+    url: uri,
+    // url: "http://inventory.armaiden.com/dashboard/show/product/api/v4",
     method: "GET",
     data: {
       idproduct: idproduct,
@@ -186,9 +189,12 @@ $(".formSale").on("click", "button.removeProduct", function () {
 var numProduct = 0;
 
 $(".btnAddProduct").click(function () {
+  var host = location.host;
+  var uri = "http://" + host + "/dashboard/show/product/api/v5";
   numProduct++;
   $.ajax({
-    url: "http://inventory.armaiden.com/dashboard/show/product/api/v5",
+    url: uri,
+    // url: "http://inventory.armaiden.com/dashboard/show/product/api/v5",
     method: "GET",
     dataType: "json",
     success: function (data) {
@@ -250,8 +256,11 @@ $(".formSale").on("change", "select.newDesProduct", function () {
     .children(".inCount")
     .children()
     .children(".newCountProduct");
+  var host = location.host;
+  var uri = "http://" + host + "/dashboard/show/product/api/v4";
   $.ajax({
-    url: "http://inventory.armaiden.com/dashboard/show/product/api/v4",
+    url: uri,
+    // url: "http://inventory.armaiden.com/dashboard/show/product/api/v4",
     method: "GET",
     data: {
       idproduct: idproduct,

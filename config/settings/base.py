@@ -55,6 +55,7 @@ LOCAL_APPS = [
     'pos.products.apps.ProductAppConfig',
     'pos.sales.apps.SaleAppConfig',
     'pos.users.apps.UserAppConfig',
+    'pos.pages.apps.PageAppConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -152,6 +153,6 @@ MEDIA_ROOT = str(APPS_DIR.path('media'))
 
 MEDIA_URL = '/media/'
 
-LOGIN_URL = '/'
+LOGIN_URL = '/sign-in'
 
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

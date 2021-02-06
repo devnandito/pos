@@ -7,7 +7,7 @@ from pos.products.views import show_report_product_json
 app_name = 'pos.users'
 
 urlpatterns = [
-    path('', login_view, name='login'),
+    path('sign-in', login_view, name='login'),
     path('logout', logout_view, name='logout'),
     path('dashboard/', show_home, name='home'),
     path('dashboard/users', show_user, name='show'),

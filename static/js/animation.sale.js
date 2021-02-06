@@ -81,7 +81,8 @@ $(".tableSaleProduct tbody").on("click", "button.addProduct", function () {
   $(this).removeClass("btn-primary addProduct");
   $(this).addClass("btn-default");
   $.ajax({
-    url: "http://inventory.armaiden.com/dashboard/show/product/api/v4",
+    url: "sale/api/v4",
+    // url: "http://inventory.armaiden.com/dashboard/show/product/api/v4",
     method: "GET",
     data: {
       idproduct: idproduct,
@@ -198,7 +199,8 @@ var numProduct = 0;
 $(".btnAddProduct").click(function () {
   numProduct++;
   $.ajax({
-    url: "http://inventory.armaiden.com/dashboard/show/product/api/v5",
+    url: "sale/api/v5",
+    // url: "http://inventory.armaiden.com/dashboard/show/product/api/v5",
     method: "GET",
     dataType: "json",
     success: function (data) {
@@ -261,7 +263,8 @@ $(".formSale").on("change", "select.newDesProduct", function () {
     .children()
     .children(".newCountProduct");
   $.ajax({
-    url: "http://inventory.armaiden.com/dashboard/show/product/api/v4",
+    url: "sale/api/v4",
+    // url: "http://inventory.armaiden.com/dashboard/show/product/api/v4",
     method: "GET",
     data: {
       idproduct: idproduct,

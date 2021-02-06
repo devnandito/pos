@@ -40,7 +40,7 @@ def show_home(request):
     query4 = query_init.count()
     query5 = query_init.order_by('-id')[:5]
     query6 = query_init.aggregate(Sum('sales'))
-    query7 = query_init.order_by('-sales')[:5]
+    query7 = query_init.order_by('-sales')[:4]
     template = loader.get_template('users/dashboard.html')
     context = {
         'title': get_body(tmp[8], tmp[8]),

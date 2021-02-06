@@ -47,36 +47,36 @@ $(".tableProduct").DataTable({
 
 // $('#id_code').attr('readonly', true);
 // $('#id_code').prop("checked", false);
-$('#id_code').prop('readonly', true);
+$("#id_code").prop("readonly", true);
 
 $("#id_fkcategory").change(function () {
   var fkcategory = $(this).val();
-  if( fkcategory == ''){
+  if (fkcategory == "") {
     fkcategory = 0;
   }
+  var host = location.host;
+  var uri = "http://" + host + "/dashboard/show/product/api/v3";
   $.ajax({
-    url: "http://inventory.armaiden.com/dashboard/show/product/api/v3",
-    // url: "../show/product/api/v3",
+    // url: "http://inventory.armaiden.com/dashboard/show/product/api/v3",
+    url: uri,
     method: "GET",
     data: {
       fkcategory: fkcategory,
     },
     dataType: "json",
     success: function (data) {
-      if (data[0]['id']=='null') {
-        var newCode = Number(data[0]["codigo"])
+      if (data[0]["id"] == "null") {
+        var newCode = Number(data[0]["codigo"]);
         $("#id_code").val(newCode);
         // console.log(newCode);
       } else {
-        var newCode = Number(data[0]["codigo"])+1;
+        var newCode = Number(data[0]["codigo"]) + 1;
         $("#id_code").val(newCode);
         // console.log(newCode);
       }
     },
   });
 });
-
-
 
 // Capturar foto
 
@@ -112,7 +112,6 @@ $("#id_image").change(function () {
     });
   }
 });
-
 
 // $("#id_fkcategory").change(function () {
 //   var fkcategory = $(this).val();

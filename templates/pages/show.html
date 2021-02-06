@@ -1,0 +1,102 @@
+<!--add base template-->
+{% extends "homepage.html" %}
+
+<!--add format forms-->
+{% load widget_tweaks %}
+
+<!--load statics files-->
+{% load staticfiles %}
+
+<!-- Begin title-->
+{%block title %}
+{{ title.page }} {% endblock %}
+<!-- End title-->
+
+<!--begin content-->
+{% block content %}
+
+    <main role="main">
+
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">Sunshine Virtual Store</h1>
+          <p class="lead text-muted">Tienda de ropas y calzados, todo lo que necesites lo encontras aqui</p>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+
+          <div class="row">
+            
+           {% for item in object_list %}
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" src="{{item.image.url}}" style="max-width:70%; height:auto;"  alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">{{item.description|upper}}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %} 
+          </div>
+          <nav aria-label="...">
+            <ul class="pagination justify-content-center">
+              {% if object_list.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ object_list.previous_page_number }}">Previous</a></li>
+              {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link">Previous</span>
+                </li>
+              {% endif %}
+              {% for pg in object_list.paginator.page_range %}
+                {% if object_list.number == pg %}
+                  <li class="page-item active">
+                    <span class="page-link">
+                      {{ pg }}
+                    <span class="sr-only">(current)</span>
+                    </span>
+                  </li>
+                {% elif pg|add:"-10" <= object_list.number and object_list.number <= pg|add:"10" %}
+                  <li class="page-item"><a class="page-link" href="?page={{ pg }}">{{pg}}</a></li>
+                {% endif %}
+              {% endfor %}
+              {% if object_list.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ object_list.next_page_number }}">Next</a>
+                </li>
+                <li clss="page-item">
+                  <a class="page-link" href="?page={{ object_list.paginator.num_pages }}">Last</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link">Next</span>
+                </li>
+              {% endif %}
+             </ul>
+          </nav>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Inicio</a>
+        </p>
+        <p>Copyright &copy; 2020</p>
+        <p>Sunshine Virtual Store</a>.</p>
+        <p>Todos los derechos reservados</p>
+      </div>
+   </footer>
+
+{% endblock %}

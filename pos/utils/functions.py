@@ -26,6 +26,7 @@ def get_body(singular, plural):
         'subtitle': 'Panel de control',
         'login': 'Ingresar al sistema',
         'home': 'Dashboard',
-        'report': 'Reports'
+        'report': 'Reports',
+        'page': 'Principal'
     }
     return title
