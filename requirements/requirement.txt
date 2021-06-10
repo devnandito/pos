@@ -1,5 +1,5 @@
 asgiref==3.2.7
-Django==2.2.10
+Django==2.2.24
 django-environ==0.4.5
 django-widget-tweaks==1.4.5
 docutils==0.15.2
